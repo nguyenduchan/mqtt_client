@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  mqtt_client:
+    build: .
+    container_name: bbb_emulator
+    restart: always
+    environment:
+      - PYTHONUNBUFFERED=1  # <--- THÊM DÒNG NÀY
+      - BROKER=host.docker.internal  # Bạn có thể thay đổi IP ở đây
+      - BOARD_ID=BBB-WSL-01
+    # Cấu hình để container có thể nhìn thấy IP mạng LAN của Windows
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  sync_agent:
+    build: .
+    restart: always  # <-- QUAN TRỌNG: Tự bật lại script nếu nó bị thoát/lỗi
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s     # Đợi 5 giây trước khi thử bật lại
+        max_attempts: 3
+        window: 120s
