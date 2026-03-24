@@ -1,20 +1,86 @@
 version: '3.8'
 
 services:
-  mqtt_client:
-    build: .
-    container_name: bbb_emulator
+    # 1. MQTT Broker (Sử dụng Mosquitto nội bộ)
+  local-mqtt-broker:
+    image: eclipse-mosquitto:latest
+    container_name: local_mqtt_broker
+    ports:
+      - "1883:1883"
+    networks:
+      - iot_network
+    # Cần tạo file cấu hình cho phép kết nối bên ngoài nếu muốn dùng iPhone
+    # volumes:
+    #   - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+  
+  node-red:
+    image: nodered/node-red:latest
+    container_name: iiot_nodered
+    user: "root" 
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    ports:
+      - "1880:1880"
+    networks:
+      - iot_network
+    volumes:
+      - ./node_red_data:/data # Lưu flows và cấu hình vào thư mục hiện tại
     restart: always
+
+  # mqtt_client:
+  #   build: ./core
+  #   container_name: bbb_emulator
+  #   restart: always
+  #   environment:
+  #     - PYTHONUNBUFFERED=1  # <--- THÊM DÒNG NÀY
+  #     - BROKER=host.docker.internal  # Bạn có thể thay đổi IP ở đây
+  #     - BOARD_ID=BBB-WSL-01
+  #   # Cấu hình để container có thể nhìn thấy IP mạng LAN của Windows
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
+
+    # 2. Backend (FastAPI)
+  local-backend:
+    build: ./backend
+    container_name: local_backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8001:8001"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - BROKER=mqtt-broker
+      # SQLite sử dụng đường dẫn file thay vì địa chỉ host/port
+      - DATABASE_URL=sqlite:///./sql_app.db
+    networks:
+      - iot_network
+    depends_on:
+      - local-mqtt-broker
+    # Đã xóa postgres_db khỏi depends_on vì không còn dùng container DB riêng
+    command: uvicorn fast_api:app --host 0.0.0.0 --port 8001 --reload
+
+
+  local-dashboard:
+    build: ./nicegui_dashboard
+    container_name: local_dashboard
+    volumes:
+      - ./nicegui_dashboard:/app
+    ports:
+      - "8080:8080"
+    networks:
+      - iot_network
     environment:
       - PYTHONUNBUFFERED=1  # <--- THÊM DÒNG NÀY
-      - BROKER=host.docker.internal  # Bạn có thể thay đổi IP ở đây
-      - BOARD_ID=BBB-WSL-01
-    # Cấu hình để container có thể nhìn thấy IP mạng LAN của Windows
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - BACKEND_URL=http://local-backend:8001
+    depends_on:
+      - local-backend
 
   sync_agent:
-    build: .
+    build: ./core
     restart: always  # <-- QUAN TRỌNG: Tự bật lại script nếu nó bị thoát/lỗi
     deploy:
       restart_policy:
@@ -22,3 +88,7 @@ services:
         delay: 5s     # Đợi 5 giây trước khi thử bật lại
         max_attempts: 3
         window: 120s
+
+networks:
+  iot_network:
+    driver: bridge

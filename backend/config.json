@@ -1,0 +1,33 @@
+{
+  "factories": [
+    {
+      "f_id": "F01",
+      "f_name": "Nhà máy Bắc Ninh",
+      "has_subscription": false,
+      "gateways": [
+        {
+          "gw_id": "BBB-001",
+          "devices": [
+            {"type": "sensor", "id": "temp_01", "label": "Nhiệt độ Lò 1", "unit": "°C", "icon": "thermometer"},
+            {"type": "sensor", "id": "press_01", "label": "Áp suất Khí", "unit": "Bar", "icon": "speed"},
+            {"type": "control", "id": "pump_01", "label": "Bơm Làm Mát", "sub_type": "toggle"},
+            {"type": "camera", "id": "cam_01", "label": "Camera Cổng Chính", "url": "https://sample.com"}
+          ]
+        }
+      ]
+    },
+    {
+      "f_id": "F02",
+      "f_name": "Xưởng Bình Dương",
+      "gateways": [
+        {
+          "gw_id": "BBB-002",
+          "devices": [
+            {"type": "sensor", "id": "energy_01", "label": "Điện năng", "unit": "kWh", "icon": "bolt"},
+            {"type": "control", "id": "fan_01", "label": "Quạt Thông Gió", "sub_type": "toggle"}
+          ]
+        }
+      ]
+    }
+  ]
+}

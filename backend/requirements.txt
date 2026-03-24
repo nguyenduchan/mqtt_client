@@ -1,0 +1,12 @@
+fastapi==0.109.0
+uvicorn==0.27.0
+paho-mqtt==2.0.0
+python-multipart==0.0.6
+# Thêm thư viện này nếu bạn muốn dùng FastAPI-MQTT chuyên dụng
+fastapi-mqtt==1.1.1
+# Thư viện hỗ trợ đọc file cấu hình .env (nếu cần)
+python-dotenv==1.0.0
+
+# Database
+SQLAlchemy==2.0.28
+psycopg2-binary==2.9.9

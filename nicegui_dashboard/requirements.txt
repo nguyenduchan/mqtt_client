@@ -1,0 +1,5 @@
+requests==2.31.0
+pandas==2.2.0
+# Thêm plotly nếu bạn muốn vẽ biểu đồ sản lượng đẹp hơn
+nicegui==3.9.0
+httpx
