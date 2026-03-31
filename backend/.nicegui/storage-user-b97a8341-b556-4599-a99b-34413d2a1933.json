@@ -1,0 +1,1 @@
+{"selected_factory_data":{"f_id":"F02","f_name":"Xưởng Bình Dương","gateways":[{"gw_id":"BBB-002","devices":[{"type":"sensor","id":"energy_01","label":"Điện năng","unit":"kWh","icon":"bolt"},{"type":"control","id":"fan_01","label":"Quạt Thông Gió","sub_type":"toggle"}]}]}}

@@ -28,6 +28,8 @@ async def update_sensor_values():
                 if 'humi_01' in sensor_ui_labels:
                     item = sensor_ui_labels['humi_01']
                     item['label_obj'].set_text(f"{iot_values[1]} {item['unit']}")
+                    sensor_ui_labels["gauge"]['label_obj'].options['series'][0]['data'][0]['value'] = iot_values[1]
+                    #sensor_ui_labels["gauge"]['label_obj'].update()
                     
     except Exception as e:
         print(f"Lỗi update: {e}")
@@ -110,6 +112,33 @@ with ui.column().classes('w-full p-4 gap-2'):
                     ui.button('🔄 GIA HẠN', on_click=show_subscription_options) \
                         .props('outline color=primary') \
                         .classes('w-full h-12')
+                    
+
+def get_gauge_options(value):
+    return {
+        'series': [{
+            'type': 'gauge',
+            'min': 0,               # <--- Giá trị nhỏ nhất
+            'max': 150,             # <--- Giá trị lớn nhất mới
+            'radius': '100%',        # Thu nhỏ vòng tròn so với khung chứa
+            'startAngle': 210,
+            'endAngle': -30,
+            'progress': {'show': True, 'width': 8}, # Đường tiến trình mỏng hơn
+            'axisLine': {'lineStyle': {'width': 8}},
+            'axisTick': {'show': False},            # Ẩn các vạch chia nhỏ cho đỡ rối
+            'splitLine': {'length': 5, 'lineStyle': {'width': 2, 'color': '#999'}},
+            'axisLabel': {'distance': 10, 'color': '#999', 'fontSize': 10},
+            'anchor': {'show': True, 'size': 10, 'itemStyle': {'color': '#37a2da'}},
+            'title': {'offsetCenter': [0, '70%'], 'fontSize': 12}, # Chữ RH nằm dưới
+            'detail': {
+                'valueAnimation': True,
+                'formatter': '{value}%',
+                'offsetCenter': [0, '35%'], # Vị trí con số %
+                'fontSize': 20              # Chữ số nhỏ lại
+            },
+            'data': [{'value': value, 'name': 'Độ ẩm'}]
+        }]
+    }
 
 # --- CHỌN NHÀ XƯỞNG ---
 factory_names = [f["f_name"] for f in full_config["factories"]]
@@ -160,6 +189,18 @@ def render_content():
                             sensor_ui_labels[s['id']] = {
                                 'label_obj': display_label,
                                 'unit': s['unit']
+                            }
+
+                    with ui.row().classes('gap-4'):
+                        # Card nhỏ gọn
+                        with ui.card().classes('p-2 items-center shadow-sm').style('width: 220px; height: 200px'):
+                            #ui.label('Độ ẩm').classes('text-xs font-bold text-gray-500')
+        
+                            # QUAN TRỌNG: .style('width: 120px; height: 120px') sẽ ép background trắng nhỏ lại
+                            gauge = ui.echart(get_gauge_options(45)).style('width: 220px; height: 220px')
+                            sensor_ui_labels["gauge"] = {
+                                'label_obj': gauge,
+                                'unit': "Bar"
                             }
 
         # TAB ĐIỀU KHIỂN

@@ -8,8 +8,8 @@
         {
           "gw_id": "BBB-001",
           "devices": [
-            {"type": "sensor", "id": "temp_01", "label": "Nhiệt độ Lò 1", "unit": "°C", "icon": "thermometer"},
-            {"type": "sensor", "id": "press_01", "label": "Áp suất Khí", "unit": "Bar", "icon": "speed"},
+            {"type": "sensor", "id": "temp_01", "label": "Nhiệt độ Lò 1", "unit": "°C", "icon": "thermostat"},
+            {"type": "sensor", "id": "humi_01", "label": "Độ ẩm", "unit": "%", "icon": "opacity"},
             {"type": "control", "id": "pump_01", "label": "Bơm Làm Mát", "sub_type": "toggle"},
             {"type": "camera", "id": "cam_01", "label": "Camera Cổng Chính", "url": "https://sample.com"}
           ]

@@ -1,0 +1,16 @@
+# Lờ đi các thư viện đã cài (vì đã có package.json)
+node_modules/
+.npm/
+
+
+# Lờ đi các file backup tự động của Node-RED
+*.bak
+flows_backup.json
+
+# Lờ đi các file cấu hình tạm của hệ thống
+.config.json
+.sessions.json
+
+# Nếu bạn muốn lờ đi cả các file log
+*.log
+

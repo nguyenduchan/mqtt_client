@@ -12,4 +12,4 @@ COPY . .
 EXPOSE 8001
 
 # Lệnh chạy FastAPI
-CMD ["uvicorn", "fast_api:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "fast_api:app", "--host", "0.0.0.0", "--port", "8001"]
