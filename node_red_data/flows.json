@@ -41,7 +41,7 @@
         "id": "251952270f19b7cf",
         "type": "mqtt-broker",
         "name": "",
-        "broker": "172.19.0.1",
+        "broker": "local-mqtt-broker",
         "port": "1883",
         "clientid": "",
         "autoConnect": true,
@@ -171,7 +171,7 @@
                 "vt": "str"
             }
         ],
-        "repeat": "5",
+        "repeat": "2",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,

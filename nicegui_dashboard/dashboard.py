@@ -6,7 +6,7 @@ import httpx
 import os
 
 # Địa chỉ API của FastAPI
-BACKEND_URL = os.getenv("BACKEND_URL", "http://local-backend:8001")
+BACKEND_URL = os.getenv("BACKEND_URL", "http://local-backend:8000")
 
 sensor_ui_labels = {}
 async def update_sensor_values():

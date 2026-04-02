@@ -5,6 +5,7 @@
     "private": true,
     "dependencies": {
         "@flowfuse/node-red-dashboard": "~1.30.2",
-        "node-red-contrib-modbus": "~5.45.2"
+        "node-red-contrib-modbus": "~5.45.2",
+        "node-red-contrib-modbus-rtu": "~1.1.33"
     }
 }

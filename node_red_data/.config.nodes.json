@@ -1,7 +1,7 @@
 {
     "node-red": {
         "name": "node-red",
-        "version": "4.1.7",
+        "version": "4.1.8",
         "local": false,
         "user": false,
         "nodes": {
@@ -586,6 +586,25 @@
                 "user": false,
                 "module": "node-red-contrib-modbus",
                 "file": "/data/node_modules/node-red-contrib-modbus/modbus/modbus-flex-fc.js"
+            }
+        }
+    },
+    "node-red-contrib-modbus-rtu": {
+        "name": "node-red-contrib-modbus-rtu",
+        "version": "1.1.33",
+        "local": true,
+        "user": true,
+        "nodes": {
+            "modbus_rtu": {
+                "name": "modbus_rtu",
+                "types": [
+                    "modbus_rtu"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "node-red-contrib-modbus-rtu",
+                "file": "/data/node_modules/node-red-contrib-modbus-rtu/modbus_rtu/modbus_rtu.js"
             }
         }
     },
